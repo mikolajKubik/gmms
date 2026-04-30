@@ -1,0 +1,20 @@
+openapi: 3.0.3
+info:
+  title: GMMS API
+  version: 0.0.1
+
+paths:
+  /ping:
+    get:
+      tags:
+        - Ping
+      operationId: ping
+      summary: Health check
+      responses:
+        '200':
+          description: pong
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: pong
