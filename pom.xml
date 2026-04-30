@@ -97,7 +97,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/oapi/api.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/oapi/openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <configOptions>
                                 <sourceFolder>src/gen/java/main</sourceFolder>

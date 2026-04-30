@@ -3,6 +3,9 @@ info:
   title: GMMS API
   version: 0.0.1
 
+servers:
+  - url: /api/v1
+
 paths:
   /ping:
     get:

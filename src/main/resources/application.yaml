@@ -1,7 +1,15 @@
 server:
   port: 3000
 
+app:
+  api:
+    base-package: net.mkubik.gmms.web.v1
+
 spring:
+  devtools:
+    restart:
+      enabled: true
+
   application:
     name: gmms
 
