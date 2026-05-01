@@ -37,6 +37,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
+        '500':
+          description: Unexpected server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
 
     get:
       operationId: listGyms
@@ -48,6 +54,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListGymsResponse'
+        '500':
+          description: Unexpected server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+
+  /gyms/revenue:
+    get:
+      operationId: getRevenueReport
+      summary: Get total monthly revenue per gym grouped by currency
+      responses:
+        '200':
+          description: Revenue report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RevenueReportResponse'
+        '500':
+          description: Unexpected server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
 
   /gyms/{gymId}/plans:
     post:
@@ -80,6 +110,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
+        '500':
+          description: Unexpected server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
 
     get:
       operationId: listMembershipPlans
@@ -99,6 +135,106 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
+        '500':
+          description: Unexpected server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+
+  /plans/{planId}/members:
+    post:
+      operationId: registerMember
+      summary: Register a new member to a given membership plan
+      parameters:
+        - $ref: '#/components/parameters/PlanId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterMemberRequest'
+      responses:
+        '201':
+          description: Member registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterMemberResponse'
+        '400':
+          description: Validation failed
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '404':
+          description: Membership plan not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '409':
+          description: Membership plan has reached maximum capacity
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '500':
+          description: Unexpected server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+
+  /members:
+    get:
+      operationId: listMembers
+      summary: List all members including plan name, gym name and status
+      responses:
+        '200':
+          description: List of members
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembersResponse'
+        '500':
+          description: Unexpected server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+
+  /members/{memberId}/cancel:
+    patch:
+      operationId: cancelMembership
+      summary: Cancel a membership
+      parameters:
+        - $ref: '#/components/parameters/MemberId'
+      responses:
+        '200':
+          description: Membership cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelMembershipResponse'
+        '404':
+          description: Member not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '409':
+          description: Membership is already cancelled
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '500':
+          description: Unexpected server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
 
 components:
 
@@ -111,7 +247,31 @@ components:
         type: string
         format: uuid
 
+    PlanId:
+      name: planId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    MemberId:
+      name: memberId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
   schemas:
+
+    # -------------------------
+    # Enums
+    # -------------------------
+
+    MembershipStatus:
+      type: string
+      enum: [ ACTIVE, CANCELLED ]
 
     # -------------------------
     # Gym
@@ -195,6 +355,7 @@ components:
           maxLength: 255
           example: "Morning BASIC"
         planTypeCode:
+          # not an enum - plan_type is a lookup table and can be extended at runtime
           type: string
           minLength: 1
           maxLength: 50
@@ -292,6 +453,131 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MembershipPlanEntry'
+
+    # -------------------------
+    # Member
+    # -------------------------
+
+    RegisterMemberRequest:
+      type: object
+      required:
+        - fullName
+        - email
+      properties:
+        fullName:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: "Jan Kowalski"
+        email:
+          type: string
+          format: email
+          maxLength: 255
+          example: "jan@kowalski.pl"
+
+    RegisterMemberResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        fullName:
+          type: string
+          example: "Jan Kowalski"
+        email:
+          type: string
+          format: email
+          example: "jan@kowalski.pl"
+        startDate:
+          type: string
+          format: date
+          example: "2026-05-01"
+        status:
+          $ref: '#/components/schemas/MembershipStatus'
+        # planId:
+        #   type: string
+        #   format: uuid
+        planName:
+          type: string
+          example: "Morning BASIC"
+        gymName:
+          type: string
+          example: "FitLife Center"
+
+    MemberEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        fullName:
+          type: string
+          example: "Jan Kowalski"
+        email:
+          type: string
+          format: email
+          example: "jan@kowalski.pl"
+        startDate:
+          type: string
+          format: date
+          example: "2026-05-01"
+        status:
+          $ref: '#/components/schemas/MembershipStatus'
+        # planId:
+        #   type: string
+        #   format: uuid
+        planName:
+          type: string
+          example: "Morning BASIC"
+        gymName:
+          type: string
+          example: "FitLife Center"
+
+    ListMembersResponse:
+      type: object
+      properties:
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemberEntry'
+
+    CancelMembershipResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        fullName:
+          type: string
+          example: "Jan Kowalski"
+        status:
+          $ref: '#/components/schemas/MembershipStatus'
+
+    # -------------------------
+    # Revenue Report
+    # -------------------------
+
+    RevenueReportEntry:
+      type: object
+      properties:
+        gymName:
+          type: string
+          example: "FitLife Center"
+        amount:
+          type: number
+          format: decimal
+          example: 2048.00
+        currency:
+          type: string
+          example: "EUR"
+
+    RevenueReportResponse:
+      type: object
+      properties:
+        report:
+          type: array
+          items:
+            $ref: '#/components/schemas/RevenueReportEntry'
 
     # -------------------------
     # Problem Detail (RFC 7807)
