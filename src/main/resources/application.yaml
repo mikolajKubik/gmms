@@ -1,9 +1,13 @@
 server:
   port: 3000
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/plain
+    min-response-size: 1024
 
 app:
   api:
-    base-package: net.mkubik.gmms.web.v1
+    base-package: net.mkubik.gmms.controller.api.v1
 
 spring:
   devtools:
