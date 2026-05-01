@@ -27,7 +27,7 @@ import lombok.Setter;
 public class Member extends BaseEntity {
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = {})
     @JoinColumn(name = "membership_plan_id", nullable = false)
     private MembershipPlan membershipPlan;
 

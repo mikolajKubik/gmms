@@ -28,10 +28,16 @@
     </scm>
     <properties>
         <java.version>21</java.version>
+        <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <openapi-generator.version>7.12.0</openapi-generator.version>
         <swagger-annotations.version>2.2.48</swagger-annotations.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -112,6 +118,7 @@
                                 <apiPackage>net.mkubik.gmms.api</apiPackage>
                                 <modelPackage>net.mkubik.gmms.api.model</modelPackage>
                                 <useJakartaEe>true</useJakartaEe>
+                                <useOptional>true</useOptional>
 <!--                                <dateLibrary>java8</dateLibrary>-->
                             </configOptions>
                         </configuration>
@@ -141,6 +148,8 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
                             <annotationProcessorPaths>
                                 <path>
                                     <groupId>org.springframework.boot</groupId>
@@ -149,6 +158,11 @@
                                 <path>
                                     <groupId>org.projectlombok</groupId>
                                     <artifactId>lombok</artifactId>
+                                </path>
+                                <path>
+                                    <groupId>org.mapstruct</groupId>
+                                    <artifactId>mapstruct-processor</artifactId>
+                                    <version>${org.mapstruct.version}</version>
                                 </path>
                             </annotationProcessorPaths>
                         </configuration>
@@ -160,10 +174,17 @@
                             <goal>testCompile</goal>
                         </goals>
                         <configuration>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
                             <annotationProcessorPaths>
                                 <path>
                                     <groupId>org.projectlombok</groupId>
                                     <artifactId>lombok</artifactId>
+                                </path>
+                                <path>
+                                    <groupId>org.mapstruct</groupId>
+                                    <artifactId>mapstruct-processor</artifactId>
+                                    <version>${org.mapstruct.version}</version>
                                 </path>
                             </annotationProcessorPaths>
                         </configuration>
