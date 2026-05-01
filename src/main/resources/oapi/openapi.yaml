@@ -136,6 +136,8 @@ paths:
       summary: List all membership plans for a given gym
       parameters:
         - $ref: '#/components/parameters/GymId'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
       responses:
         '200':
           description: List of membership plans
@@ -433,16 +435,24 @@ components:
 
     CreateMembershipPlanResponse:
       type: object
+      required:
+        - id
+        - name
+        - planTypeCode
+        - price
+        - currency
+        - durationMonths
+        - maxMembers
       properties:
         id:
           type: string
           format: uuid
-        # gymId:
-        #   type: string
-        #   format: uuid
-        gymName:
-          type: string
-          example: "FitLife Center"
+#         gymId:
+#           type: string
+#           format: uuid
+#        gymName:
+#          type: string
+#          example: "FitLife Center"
         name:
           type: string
           example: "Morning BASIC"
@@ -465,16 +475,24 @@ components:
 
     MembershipPlanEntry:
       type: object
+      required:
+        - id
+        - name
+        - planTypeCode
+        - price
+        - currency
+        - durationMonths
+        - maxMembers
       properties:
         id:
           type: string
           format: uuid
-        # gymId:
-        #   type: string
-        #   format: uuid
-        gymName:
-          type: string
-          example: "FitLife Center"
+#         gymId:
+#           type: string
+#           format: uuid
+#        gymName:
+#          type: string
+#          example: "FitLife Center"
         name:
           type: string
           example: "Morning BASIC"
@@ -494,9 +512,9 @@ components:
         maxMembers:
           type: integer
           example: 20
-        activeMembers:
-          type: integer
-          example: 12
+#        activeMembers:
+#          type: integer
+#          example: 12
 
     ListMembershipPlansResponse:
       type: object
@@ -505,6 +523,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MembershipPlanEntry'
+        page:
+          $ref: '#/components/schemas/PageMetadata'
 
     # -------------------------
     # Member

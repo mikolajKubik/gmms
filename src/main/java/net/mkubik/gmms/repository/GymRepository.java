@@ -32,6 +32,6 @@ public interface GymRepository extends JpaRepository<Gym, UUID> { //TODO: evalua
     @Query("SELECT COUNT(g) > 0 FROM Gym g WHERE UPPER(g.name) = UPPER(:name)")
     boolean existsByNameIgnoreCase(@Param("name") String name);
 
-    Gym save(Gym gym);
+//    Gym save(Gym gym); // TODO: unused to be removed
 }
 

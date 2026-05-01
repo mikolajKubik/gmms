@@ -3,6 +3,7 @@ package net.mkubik.gmms.controller;
 import jakarta.validation.ConstraintViolationException;
 import net.mkubik.gmms.exception.ApplicationException;
 import net.mkubik.gmms.exception.ResourceAlreadyExistsException;
+import net.mkubik.gmms.exception.ResourceNotFoundException;
 import org.jspecify.annotations.NonNull;
 import org.springframework.http.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +17,12 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+    // 404
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ProblemDetail handleNotFound(ApplicationException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
 
     // 409
     @ExceptionHandler(ResourceAlreadyExistsException.class)
