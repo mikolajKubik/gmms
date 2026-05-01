@@ -9,6 +9,8 @@ CREATE TABLE gym
     CONSTRAINT pk_gym PRIMARY KEY (id)
 );
 
+-- TODO: index
+
 INSERT INTO gym (id, version, name, address, phone_number) VALUES
     ('550e8400-e29b-41d4-a716-446655440001', 0, 'FitLife Center', 'ul. Przykładowa 1, Warszawa', '+48123456789'),
     ('550e8400-e29b-41d4-a716-446655440002', 0, 'PowerGym Kraków', 'ul. Dietla 42, Kraków', '+48987654321'),

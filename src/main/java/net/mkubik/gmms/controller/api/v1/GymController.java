@@ -5,7 +5,10 @@ import net.mkubik.gmms.api.DefaultApi;
 import net.mkubik.gmms.api.model.CreateGymRequest;
 import net.mkubik.gmms.api.model.CreateGymResponse;
 import net.mkubik.gmms.api.model.ListGymsResponse;
+import net.mkubik.gmms.mapper.GymMapper;
+import net.mkubik.gmms.model.Gym;
 import net.mkubik.gmms.repository.GymRepository;
+import net.mkubik.gmms.service.GymService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,13 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class GymController implements DefaultApi {
 
+    private final GymService gymService;
+    private final GymMapper gymMapper;
     private final GymRepository gymRepository;
 
     @Override
     public ResponseEntity<CreateGymResponse> createGym(CreateGymRequest createGymRequest) {
-        // TODO:
-        CreateGymResponse response = new CreateGymResponse();
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        Gym gym = gymMapper.toEntity(createGymRequest);
+        Gym saved = gymService.createGym(gym);
+        return ResponseEntity.status(HttpStatus.CREATED).body(gymMapper.toCreateResponse(saved));
     }
 
     @Override
