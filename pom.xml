@@ -131,6 +131,7 @@
                                 <additionalModelTypeAnnotations>
                                     @lombok.AllArgsConstructor
                                     @lombok.NoArgsConstructor
+<!--                                    @lombok.Builder-->
                                 </additionalModelTypeAnnotations>
                                 <generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
                                 <!--                                <dateLibrary>java8</dateLibrary>-->

@@ -1,7 +1,7 @@
 package net.mkubik.gmms.controller.api.v1;
 
 import lombok.RequiredArgsConstructor;
-import net.mkubik.gmms.api.DefaultApi;
+import net.mkubik.gmms.api.GymApi;
 import net.mkubik.gmms.api.model.CreateGymRequest;
 import net.mkubik.gmms.api.model.CreateGymResponse;
 import net.mkubik.gmms.api.model.GymEntry;
@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-public class GymController implements DefaultApi {
+public class GymController implements GymApi {
 
     private final GymService gymService;
     private final GymMapper gymMapper;
@@ -48,9 +48,14 @@ public class GymController implements DefaultApi {
         pageMetadata.setTotalElements(Optional.of(gymPage.getTotalElements()));
         pageMetadata.setTotalPages(Optional.of(gymPage.getTotalPages()));
 
-        ListGymsResponse response = new ListGymsResponse();
-        response.setGyms(gymPage.getContent());
-        response.setPage(Optional.of(pageMetadata));
+        ListGymsResponse response = new ListGymsResponse(gymPage.getContent(), Optional.of(pageMetadata));
+
+//        ListGymsResponse response = ListGymsResponse.builder()
+//                .gyms(gymPage.getContent())
+//                .page(Optional.of(pageMetadata))
+//                .build();
+//        response.setGyms(gymPage.getContent());
+//        response.setPage(Optional.of(pageMetadata));
         return ResponseEntity.ok(response);
     }
 }

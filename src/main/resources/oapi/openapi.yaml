@@ -5,11 +5,14 @@ info:
 
 servers:
   - url: http://localhost:3000/api/v1
+  - url: https://gmms.mkubik.net/api/v1
 
 paths:
 
   /gyms:
     post:
+      tags:
+        - Gym
       operationId: createGym
       summary: Create a new gym
       requestBody:
@@ -45,6 +48,8 @@ paths:
                 $ref: '#/components/schemas/ProblemDetailResponse'
 
     get:
+      tags:
+        - Gym
       operationId: listGyms
       summary: List all gyms
       parameters:
@@ -66,6 +71,8 @@ paths:
 
   /gyms/revenue:
     get:
+      tags:
+        - Report
       operationId: getRevenueReport
       summary: Get total monthly revenue per gym grouped by currency
       responses:
@@ -84,6 +91,8 @@ paths:
 
   /gyms/{gymId}/plans:
     post:
+      tags:
+        - MembershipPlan
       operationId: createMembershipPlan
       summary: Create a new membership plan for a given gym
       parameters:
@@ -121,6 +130,8 @@ paths:
                 $ref: '#/components/schemas/ProblemDetailResponse'
 
     get:
+      tags:
+        - MembershipPlan
       operationId: listMembershipPlans
       summary: List all membership plans for a given gym
       parameters:
@@ -147,6 +158,8 @@ paths:
 
   /plans/{planId}/members:
     post:
+      tags:
+        - Member
       operationId: registerMember
       summary: Register a new member to a given membership plan
       parameters:
@@ -191,6 +204,8 @@ paths:
 
   /members:
     get:
+      tags:
+        - Member
       operationId: listMembers
       summary: List all members including plan name, gym name and status
       responses:
@@ -209,6 +224,8 @@ paths:
 
   /members/{memberId}/cancel:
     patch:
+      tags:
+        - Member
       operationId: cancelMembership
       summary: Cancel a membership
       parameters:
