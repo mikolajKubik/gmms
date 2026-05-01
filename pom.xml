@@ -128,6 +128,11 @@
                                 <useOptional>true</useOptional>
                                 <useBeanValidation>true</useBeanValidation>
                                 <performBeanValidation>true</performBeanValidation>
+                                <additionalModelTypeAnnotations>
+                                    @lombok.AllArgsConstructor
+                                    @lombok.NoArgsConstructor
+                                </additionalModelTypeAnnotations>
+                                <generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
                                 <!--                                <dateLibrary>java8</dateLibrary>-->
                             </configOptions>
                         </configuration>

@@ -316,6 +316,11 @@ components:
 
     GymEntry:
       type: object
+      required:
+        - id
+        - name
+        - address
+        - phoneNumber
       properties:
         id:
           type: string
