@@ -13,6 +13,10 @@ spring:
   application:
     name: gmms
 
+  mvc:
+    problemdetails:
+      enabled: true
+
   datasource:
     url: jdbc:h2:mem:gmmsdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;DB_CLOSE_DELAY=-1
     driver-class-name: org.h2.Driver

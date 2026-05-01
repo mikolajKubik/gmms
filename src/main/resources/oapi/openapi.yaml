@@ -7,17 +7,313 @@ servers:
   - url: http://localhost:3000/api/v1
 
 paths:
-  /ping:
+
+  /gyms:
+    post:
+      operationId: createGym
+      summary: Create a new gym
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGymRequest'
+      responses:
+        '201':
+          description: Gym created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateGymResponse'
+        '400':
+          description: Validation failed
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '409':
+          description: Gym with this name already exists
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+
     get:
-      tags:
-        - Ping
-      operationId: ping
-      summary: Health check
+      operationId: listGyms
+      summary: List all gyms
       responses:
         '200':
-          description: pong
+          description: List of gyms
           content:
-            text/plain:
+            application/json:
               schema:
-                type: string
-                example: pong
+                $ref: '#/components/schemas/ListGymsResponse'
+
+  /gyms/{gymId}/plans:
+    post:
+      operationId: createMembershipPlan
+      summary: Create a new membership plan for a given gym
+      parameters:
+        - $ref: '#/components/parameters/GymId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMembershipPlanRequest'
+      responses:
+        '201':
+          description: Membership plan created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMembershipPlanResponse'
+        '400':
+          description: Validation failed
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '404':
+          description: Gym not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+
+    get:
+      operationId: listMembershipPlans
+      summary: List all membership plans for a given gym
+      parameters:
+        - $ref: '#/components/parameters/GymId'
+      responses:
+        '200':
+          description: List of membership plans
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembershipPlansResponse'
+        '404':
+          description: Gym not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+
+components:
+
+  parameters:
+    GymId:
+      name: gymId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+
+    # -------------------------
+    # Gym
+    # -------------------------
+
+    CreateGymRequest:
+      type: object
+      required:
+        - name
+        - address
+        - phoneNumber
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: "FitLife Center"
+        address:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: "ul. Przykładowa 1, Warszawa"
+        phoneNumber:
+          type: string
+          minLength: 1
+          maxLength: 50
+          pattern: '^\+?[0-9 \-().]{7,50}$'
+          example: "+48123456789"
+
+    CreateGymResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        address:
+          type: string
+        phoneNumber:
+          type: string
+
+    GymEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        address:
+          type: string
+        phoneNumber:
+          type: string
+
+    ListGymsResponse:
+      type: object
+      properties:
+        gyms:
+          type: array
+          items:
+            $ref: '#/components/schemas/GymEntry'
+
+    # -------------------------
+    # Membership Plan
+    # -------------------------
+
+    CreateMembershipPlanRequest:
+      type: object
+      required:
+        - name
+        - planTypeCode
+        - price
+        - currency
+        - durationMonths
+        - maxMembers
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: "Morning BASIC"
+        planTypeCode:
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: "BASIC"
+        price:
+          type: number
+          format: decimal
+          exclusiveMinimum: 0
+          example: 49.99
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: "EUR"
+        durationMonths:
+          type: integer
+          minimum: 1
+          example: 3
+        maxMembers:
+          type: integer
+          minimum: 1
+          example: 20
+
+    CreateMembershipPlanResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        # gymId:
+        #   type: string
+        #   format: uuid
+        gymName:
+          type: string
+          example: "FitLife Center"
+        name:
+          type: string
+          example: "Morning BASIC"
+        planTypeCode:
+          type: string
+          example: "BASIC"
+        price:
+          type: number
+          format: decimal
+          example: 49.99
+        currency:
+          type: string
+          example: "EUR"
+        durationMonths:
+          type: integer
+          example: 3
+        maxMembers:
+          type: integer
+          example: 20
+
+    MembershipPlanEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        # gymId:
+        #   type: string
+        #   format: uuid
+        gymName:
+          type: string
+          example: "FitLife Center"
+        name:
+          type: string
+          example: "Morning BASIC"
+        planTypeCode:
+          type: string
+          example: "BASIC"
+        price:
+          type: number
+          format: decimal
+          example: 49.99
+        currency:
+          type: string
+          example: "EUR"
+        durationMonths:
+          type: integer
+          example: 3
+        maxMembers:
+          type: integer
+          example: 20
+        activeMembers:
+          type: integer
+          example: 12
+
+    ListMembershipPlansResponse:
+      type: object
+      properties:
+        plans:
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipPlanEntry'
+
+    # -------------------------
+    # Problem Detail (RFC 7807)
+    # -------------------------
+
+    ProblemDetailResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+          default: "about:blank"
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          format: uri
+          nullable: true
+      additionalProperties: true
