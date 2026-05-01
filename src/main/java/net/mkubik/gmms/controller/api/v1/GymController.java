@@ -39,7 +39,7 @@ public class GymController implements DefaultApi {
     @Transactional(readOnly = true)
     public ResponseEntity<ListGymsResponse> listGyms(Optional<Integer> page, Optional<Integer> size) {
         Page<GymEntry> gymPage = gymRepository.findAllGymEntries(
-                PageRequest.of(page.orElse(0), size.orElse(20))
+                PageRequest.of(page.orElse(0), size.orElse(20)) // TODO: handle 500 on size 0
         );
 
         PageMetadata pageMetadata = new PageMetadata();
