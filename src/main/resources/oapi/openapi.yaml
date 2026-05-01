@@ -4,7 +4,7 @@ info:
   version: 0.0.1
 
 servers:
-  - url: /api/v1
+  - url: http://localhost:3000/api/v1
 
 paths:
   /ping:

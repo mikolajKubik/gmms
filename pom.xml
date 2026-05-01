@@ -83,6 +83,11 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.8.16</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -106,6 +111,8 @@
                                 <useTags>true</useTags>
                                 <apiPackage>net.mkubik.gmms.api</apiPackage>
                                 <modelPackage>net.mkubik.gmms.api.model</modelPackage>
+                                <useJakartaEe>true</useJakartaEe>
+<!--                                <dateLibrary>java8</dateLibrary>-->
                             </configOptions>
                         </configuration>
                     </execution>

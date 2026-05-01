@@ -31,7 +31,8 @@ spring:
   h2:
     console:
       enabled: true
-      path: /h2console
+      path: /h2
+#      path: /dev/h2-console
       settings:
         web-allow-others: true
 
@@ -57,3 +58,10 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
     com.zaxxer.hikari: INFO
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger
+#    path: /dev/swagger-ui.html
