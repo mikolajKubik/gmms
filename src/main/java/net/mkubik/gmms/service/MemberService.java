@@ -1,15 +1,16 @@
 package net.mkubik.gmms.service;
 
 import net.mkubik.gmms.model.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface MemberService {
 
     Member registerMember(UUID planId, Member member);
 
-    List<Member> listMembers();
+    Page<Member> listMembers(Pageable pageable);
 
     Member cancelMembership(UUID memberId);
 }

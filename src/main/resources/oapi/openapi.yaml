@@ -210,6 +210,9 @@ paths:
         - Member
       operationId: listMembers
       summary: List all members including plan name, gym name and status
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
       responses:
         '200':
           description: List of members
@@ -625,6 +628,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MemberEntry'
+        page:
+          $ref: '#/components/schemas/PageMetadata'
 
     CancelMembershipResponse:
       required:

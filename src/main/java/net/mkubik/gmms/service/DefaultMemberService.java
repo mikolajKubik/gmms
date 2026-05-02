@@ -9,13 +9,13 @@ import net.mkubik.gmms.model.MembershipPlan;
 import net.mkubik.gmms.model.MembershipStatus;
 import net.mkubik.gmms.repository.MemberRepository;
 import net.mkubik.gmms.repository.MembershipPlanRepository;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 // TODO: @Transactional(propagation = Propagation.REQUIRES_NEW
@@ -51,8 +51,8 @@ public class DefaultMemberService implements MemberService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
-    public List<Member> listMembers() {
-        return memberRepository.findAllWithPlanAndGym();
+    public Page<Member> listMembers(Pageable pageable) {
+        return memberRepository.findAllWithPlanAndGym(pageable);
     }
 
     @Override
