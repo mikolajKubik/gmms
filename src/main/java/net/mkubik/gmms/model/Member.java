@@ -48,7 +48,6 @@ public class Member extends BaseEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Size(max = 20)
     @Column(name = "status", nullable = false, length = 20)
     private MembershipStatus status;
 }

@@ -553,6 +553,10 @@ components:
           example: "jan@kowalski.pl"
 
     RegisterMemberResponse:
+      required:
+        - id
+        - fullName
+        - email
       type: object
       properties:
         id:
@@ -577,11 +581,15 @@ components:
         planName:
           type: string
           example: "Morning BASIC"
-        gymName:
-          type: string
-          example: "FitLife Center"
+#        gymName:
+#          type: string
+#          example: "FitLife Center"
 
     MemberEntry:
+      required:
+        - id
+        - fullName
+        - email
       type: object
       properties:
         id:
@@ -619,6 +627,10 @@ components:
             $ref: '#/components/schemas/MemberEntry'
 
     CancelMembershipResponse:
+      required:
+        - id
+        - fullName
+        - status
       type: object
       properties:
         id:

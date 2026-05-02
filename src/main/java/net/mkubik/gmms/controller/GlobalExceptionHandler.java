@@ -1,11 +1,10 @@
 package net.mkubik.gmms.controller;
 
 import jakarta.validation.ConstraintViolationException;
-import net.mkubik.gmms.exception.ApplicationException;
-import net.mkubik.gmms.exception.ResourceAlreadyExistsException;
-import net.mkubik.gmms.exception.ResourceNotFoundException;
+import net.mkubik.gmms.exception.*;
 import org.jspecify.annotations.NonNull;
 import org.springframework.http.*;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -25,9 +24,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     // 409
-    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    @ExceptionHandler({
+            ResourceAlreadyExistsException.class,
+            ResourceCapacityExceededException.class,
+            ResourceAlreadyCancelledException.class
+    })
     public ProblemDetail handleAlreadyExists(ApplicationException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
+    // 409 — optimistic lock
+    @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
+    public ProblemDetail handleOptimisticLockk(ObjectOptimisticLockingFailureException ex) {
+        return ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT, "Resource was modified by another transaction, please retry"
+        );
     }
 
     // 400 — query/path parameter validation
