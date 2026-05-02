@@ -11,20 +11,21 @@ import net.mkubik.gmms.repository.PlanTypeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class MembershipPlanServiceImpl implements MembershipPlanService {
+public class DefaultMembershipPlanService implements MembershipPlanService {
 
     private final MembershipPlanRepository membershipPlanRepository;
     private final GymRepository gymRepository;
     private final PlanTypeRepository planTypeRepository;
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public MembershipPlan createMembershipPlan(UUID gymId, MembershipPlan plan, String planTypeCode) {
         Gym gym = gymRepository.findById(gymId)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -38,12 +39,13 @@ public class MembershipPlanServiceImpl implements MembershipPlanService {
 
         plan.setGym(gym);
         plan.setPlanType(planType);
+        plan.setActiveMembers(0);
 
         return membershipPlanRepository.save(plan);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public Page<MembershipPlan> listMembershipPlans(UUID gymId, Pageable pageable) {
         if (!gymRepository.existsById(gymId)) {
             throw new ResourceNotFoundException(

@@ -443,6 +443,7 @@ components:
         - currency
         - durationMonths
         - maxMembers
+        - activeMembers
       properties:
         id:
           type: string
@@ -472,6 +473,9 @@ components:
         maxMembers:
           type: integer
           example: 20
+        activeMembers:
+          type: integer
+          example: 0
 
     MembershipPlanEntry:
       type: object
@@ -483,6 +487,7 @@ components:
         - currency
         - durationMonths
         - maxMembers
+        - activeMembers
       properties:
         id:
           type: string
@@ -512,9 +517,9 @@ components:
         maxMembers:
           type: integer
           example: 20
-#        activeMembers:
-#          type: integer
-#          example: 12
+        activeMembers:
+          type: integer
+          example: 12
 
     ListMembershipPlansResponse:
       type: object

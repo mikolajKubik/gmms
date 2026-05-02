@@ -21,6 +21,7 @@ public interface MembershipPlanMapper {
     @Mapping(target = "version", ignore = true)
     @Mapping(target = "gym", ignore = true)
     @Mapping(target = "planType", ignore = true)
+    @Mapping(target = "activeMembers", ignore = true)
     MembershipPlan toEntity(CreateMembershipPlanRequest request);
 
     @Mapping(source = "planType.code", target = "planTypeCode")

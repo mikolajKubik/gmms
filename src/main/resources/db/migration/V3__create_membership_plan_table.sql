@@ -9,6 +9,7 @@ CREATE TABLE membership_plan
     currency        VARCHAR(3)    NOT NULL,
     duration_months INT           NOT NULL,
     max_members     INT           NOT NULL,
+    active_members  INT           NOT NULL,
     CONSTRAINT pk_membership_plan PRIMARY KEY (id),
     CONSTRAINT fk_membership_plan_gym FOREIGN KEY (gym_id) REFERENCES gym (id),
     CONSTRAINT fk_membership_plan_type FOREIGN KEY (plan_type_id) REFERENCES plan_type (id)

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +37,7 @@ public class GymController implements GymApi {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public ResponseEntity<ListGymsResponse> listGyms(Optional<Integer> page, Optional<Integer> size) {
         Page<GymEntry> gymPage = gymRepository.findAllGymEntries(
                 PageRequest.of(page.orElse(0), size.orElse(20)) // TODO: handle 500 on size 0

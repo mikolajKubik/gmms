@@ -51,4 +51,9 @@ public class MembershipPlan extends BaseEntity {
     @Min(1)
     @Column(name = "max_members", nullable = false)
     private Integer maxMembers;
+
+    @NotNull
+    @Min(0)
+    @Column(name = "active_members", nullable = false)
+    private Integer activeMembers = 0;
 }
