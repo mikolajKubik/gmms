@@ -24,14 +24,5 @@ public abstract class BaseEntity {
     @Version
     @Column(name = "version", nullable = false)
     private Long version;
-
-    //@EntityListeners(AuditingEntityListener.class)
-    // @CreatedDate
-    // @Column(name = "created_at", nullable = false)
-    // private LocalDateTime createdAt;
-    //
-    // @LastModifiedDate
-    // @Column(name = "modified_at")
-    // private LocalDateTime modifiedAt;
 }
 

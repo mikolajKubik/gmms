@@ -35,6 +35,5 @@ public class Gym extends BaseEntity {
     @Column(name = "phone_number", nullable = false, length = 50)
     private String phoneNumber;
 
-//    @Column(name = "active", nullable = false)
-//    private boolean active = true;
+
 }

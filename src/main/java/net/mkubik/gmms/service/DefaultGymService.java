@@ -20,7 +20,7 @@ public class DefaultGymService implements GymService {
     public Gym createGym(Gym gym) {
         if (gymRepository.existsByNameIgnoreCase(gym.getName())) {
             throw new ResourceAlreadyExistsException(
-                    "Gym with name '" + gym.getName() + "' already exists" // TODO: change to string consts
+                    "Gym with name '" + gym.getName() + "' already exists"
             );
         }
         try {

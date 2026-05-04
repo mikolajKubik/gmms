@@ -5,11 +5,8 @@ CREATE TABLE gym
     name         VARCHAR(255) NOT NULL UNIQUE,
     address      VARCHAR(255) NOT NULL,
     phone_number VARCHAR(50)  NOT NULL,
---     active       BOOLEAN      NOT NULL DEFAULT true,
     CONSTRAINT pk_gym PRIMARY KEY (id)
 );
-
--- TODO: index
 
 INSERT INTO gym (id, version, name, address, phone_number) VALUES
     ('550e8400-e29b-41d4-a716-446655440001', 0, 'FitLife Center', 'ul. Przykładowa 1, Warszawa', '+48123456789'),

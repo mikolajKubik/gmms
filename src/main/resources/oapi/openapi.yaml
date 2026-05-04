@@ -5,7 +5,6 @@ info:
 
 servers:
   - url: http://localhost:3000/api/v1
-  - url: https://gmms.mkubik.net/api/v1
 
 paths:
 
@@ -343,7 +342,7 @@ components:
           type: string
           minLength: 1
           maxLength: 50
-          pattern: '^\+?[0-9 \-().]{7,50}$'
+          pattern: '^\+?[1-9][0-9]{7,14}$'
           example: "+48123456789"
 
     CreateGymResponse:
@@ -451,12 +450,6 @@ components:
         id:
           type: string
           format: uuid
-#         gymId:
-#           type: string
-#           format: uuid
-#        gymName:
-#          type: string
-#          example: "FitLife Center"
         name:
           type: string
           example: "Morning BASIC"
@@ -495,12 +488,6 @@ components:
         id:
           type: string
           format: uuid
-#         gymId:
-#           type: string
-#           format: uuid
-#        gymName:
-#          type: string
-#          example: "FitLife Center"
         name:
           type: string
           example: "Morning BASIC"
@@ -611,9 +598,6 @@ components:
           example: "2026-05-01"
         status:
           $ref: '#/components/schemas/MembershipStatus'
-        # planId:
-        #   type: string
-        #   format: uuid
         planName:
           type: string
           example: "Morning BASIC"
@@ -653,6 +637,10 @@ components:
 
     RevenueReportEntry:
       type: object
+      required:
+        - gymName
+        - amount
+        - currency
       properties:
         gymName:
           type: string

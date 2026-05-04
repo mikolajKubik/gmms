@@ -52,7 +52,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, String> fieldErrors = new HashMap<>();
         for (var violation : ex.getConstraintViolations()) {
             String path = violation.getPropertyPath().toString();
-//            String field = path.substring(path.lastIndexOf('.') + 1);
             fieldErrors.putIfAbsent(path, violation.getMessage());
         }
         problemDetail.setProperty("errors", fieldErrors);
@@ -86,7 +85,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleGeneric(Exception ex) {
         return ProblemDetail.forStatusAndDetail(
-                HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage() // TODO: replace ex.getMessage() with "Internal server error" as it can leak internals
+                HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error"
         );
     }
 }

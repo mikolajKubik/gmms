@@ -15,8 +15,6 @@ import java.util.UUID;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface MemberRepository extends JpaRepository<Member, UUID> {
 
-    long countByMembershipPlanIdAndStatus(UUID membershipPlanId, MembershipStatus status); //TODO: unused
-
     @Query("""
             SELECT m FROM Member m
             JOIN FETCH m.membershipPlan mp

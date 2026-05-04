@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.UUID;
 
-// TODO: @Transactional(propagation = Propagation.REQUIRES_NEW
 @Service
 @RequiredArgsConstructor
 public class DefaultMemberService implements MemberService {

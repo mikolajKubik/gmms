@@ -53,7 +53,7 @@ class ReportE2ETest extends BaseE2ETest {
         assertThat(initialReport).isNotNull();
         RevenueReportEntry entry = findReportEntry(initialReport, gym.getName());
         assertThat(entry.getCurrency()).contains("EUR");
-        BigDecimal initialAmount = entry.getAmount().orElseThrow();
+        BigDecimal initialAmount = entry.getAmount();
         assertThat(initialAmount).isEqualByComparingTo("100.00");
 
         restClient.patch()
@@ -68,13 +68,13 @@ class ReportE2ETest extends BaseE2ETest {
 
         assertThat(afterCancelReport).isNotNull();
         RevenueReportEntry updatedEntry = findReportEntry(afterCancelReport, gym.getName());
-        BigDecimal updatedAmount = updatedEntry.getAmount().orElseThrow();
+        BigDecimal updatedAmount = updatedEntry.getAmount();
         assertThat(updatedAmount).isEqualByComparingTo("50.00");
     }
 
     private RevenueReportEntry findReportEntry(RevenueReportResponse response, String gymName) {
         return response.getReport().stream()
-                .filter(entry -> entry.getGymName().orElse("").equals(gymName))
+                .filter(entry -> entry.getGymName().equals(gymName))
                 .findFirst()
                 .orElseThrow();
     }

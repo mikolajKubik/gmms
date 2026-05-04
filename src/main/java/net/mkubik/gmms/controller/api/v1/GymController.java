@@ -50,13 +50,6 @@ public class GymController implements GymApi {
         pageMetadata.setTotalPages(Optional.of(gymPage.getTotalPages()));
 
         ListGymsResponse response = new ListGymsResponse(gymPage.getContent(), Optional.of(pageMetadata));
-
-//        ListGymsResponse response = ListGymsResponse.builder()
-//                .gyms(gymPage.getContent())
-//                .page(Optional.of(pageMetadata))
-//                .build();
-//        response.setGyms(gymPage.getContent());
-//        response.setPage(Optional.of(pageMetadata));
         return ResponseEntity.ok(response);
     }
 }

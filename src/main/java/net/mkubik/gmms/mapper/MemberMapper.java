@@ -37,7 +37,6 @@ public interface MemberMapper {
     Member toEntity(RegisterMemberRequest request);
 
     @Mapping(source = "membershipPlan.name", target = "planName")
-//    @Mapping(target = "gymName", ignore = true)
     RegisterMemberResponse toRegisterResponse(Member member);
 
     CancelMembershipResponse toCancelResponse(Member member);

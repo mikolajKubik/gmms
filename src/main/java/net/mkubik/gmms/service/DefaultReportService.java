@@ -44,9 +44,9 @@ public class DefaultReportService implements ReportService {
                 .groupBy(gymName, planCurrency)
                 .orderBy(gymName.asc(), field("total_revenue").desc())
                 .fetch(record -> new RevenueReportEntry(
-                        Optional.ofNullable(record.get("gym_name", String.class)),
-                        Optional.ofNullable(record.get("total_revenue", BigDecimal.class)),
-                        Optional.ofNullable(record.get("currency", String.class))
+                        record.get("gym_name", String.class),
+                        record.get("total_revenue", BigDecimal.class),
+                        record.get("currency", String.class)
                 ));
 
         return new RevenueReportResponse(entries);
